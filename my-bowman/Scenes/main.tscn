@@ -1,0 +1,97 @@
+[gd_scene load_steps=13 format=3 uid="uid://rqjatkg4fc2d"]
+
+[ext_resource type="Texture2D" uid="uid://wehilybaalvd" path="res://Art/Bow_sprite-Sheet.png" id="1_hhj1c"]
+[ext_resource type="Script" path="res://Scripts/bow.gd" id="1_xo03o"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s30r7"]
+atlas = ExtResource("1_hhj1c")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_awd4r"]
+atlas = ExtResource("1_hhj1c")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tm838"]
+atlas = ExtResource("1_hhj1c")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sicfx"]
+atlas = ExtResource("1_hhj1c")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3a07e"]
+atlas = ExtResource("1_hhj1c")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aoqgt"]
+atlas = ExtResource("1_hhj1c")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f5wmt"]
+atlas = ExtResource("1_hhj1c")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kquye"]
+atlas = ExtResource("1_hhj1c")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x61qi"]
+atlas = ExtResource("1_hhj1c")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xn3si"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s30r7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_awd4r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tm838")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sicfx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3a07e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aoqgt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f5wmt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kquye")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x61qi")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 8.0
+}]
+
+[node name="main" type="Node2D"]
+position = Vector2(129, 84)
+
+[node name="bow" type="Node2D" parent="."]
+script = ExtResource("1_xo03o")
+
+[node name="Timer" type="Timer" parent="bow"]
+wait_time = 0.5
+autostart = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="bow"]
+rotation = -1.5708
+sprite_frames = SubResource("SpriteFrames_xn3si")
+frame_progress = 0.887651
+
+[connection signal="timeout" from="bow/Timer" to="bow" method="_on_timer_timeout"]
