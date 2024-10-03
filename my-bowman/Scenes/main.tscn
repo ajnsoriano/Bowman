@@ -1,9 +1,18 @@
-[gd_scene load_steps=13 format=3 uid="uid://rqjatkg4fc2d"]
+[gd_scene load_steps=27 format=3 uid="uid://rqjatkg4fc2d"]
 
 [ext_resource type="Texture2D" uid="uid://wehilybaalvd" path="res://Art/Bow_sprite-Sheet.png" id="1_hhj1c"]
 [ext_resource type="Script" path="res://Scripts/bow.gd" id="1_xo03o"]
+[ext_resource type="Texture2D" uid="uid://cirb2qlp1lfih" path="res://Art/only_bow.png" id="2_sihro"]
+[ext_resource type="Script" path="res://Scenes/state_machine.gd" id="3_qwid8"]
+[ext_resource type="Script" path="res://Scripts/bow_idle.gd" id="4_cmq4q"]
+[ext_resource type="Script" path="res://Scripts/bow_draw.gd" id="5_rw02v"]
+[ext_resource type="Script" path="res://Scripts/bow_shoot.gd" id="6_c2e2l"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_s30r7"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ajpis"]
+atlas = ExtResource("2_sihro")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u64ap"]
 atlas = ExtResource("1_hhj1c")
 region = Rect2(0, 0, 32, 32)
 
@@ -39,14 +48,54 @@ region = Rect2(192, 0, 32, 32)
 atlas = ExtResource("1_hhj1c")
 region = Rect2(224, 0, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_euy8c"]
+atlas = ExtResource("1_hhj1c")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4eby5"]
+atlas = ExtResource("1_hhj1c")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xslje"]
+atlas = ExtResource("1_hhj1c")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_brll0"]
+atlas = ExtResource("1_hhj1c")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q6p64"]
+atlas = ExtResource("1_hhj1c")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0y73k"]
+atlas = ExtResource("1_hhj1c")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uf0l5"]
+atlas = ExtResource("1_hhj1c")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h86s7"]
+atlas = ExtResource("1_hhj1c")
+region = Rect2(224, 0, 32, 32)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_xn3si"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_s30r7")
+"texture": SubResource("AtlasTexture_ajpis")
 }],
 "loop": true,
 "name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u64ap")
+}],
+"loop": true,
+"name": &"default_w_arrow",
 "speed": 5.0
 }, {
 "frames": [{
@@ -74,9 +123,38 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_x61qi")
 }],
-"loop": true,
-"name": &"new_animation",
+"loop": false,
+"name": &"draw",
 "speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_euy8c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4eby5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xslje")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_brll0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q6p64")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0y73k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uf0l5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h86s7")
+}],
+"loop": true,
+"name": &"draw_w_arrow",
+"speed": 5.0
 }]
 
 [node name="main" type="Node2D"]
@@ -85,13 +163,27 @@ position = Vector2(129, 84)
 [node name="bow" type="Node2D" parent="."]
 script = ExtResource("1_xo03o")
 
-[node name="Timer" type="Timer" parent="bow"]
-wait_time = 0.5
-autostart = true
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="bow"]
 rotation = -1.5708
 sprite_frames = SubResource("SpriteFrames_xn3si")
-frame_progress = 0.887651
+animation = &"default_w_arrow"
 
-[connection signal="timeout" from="bow/Timer" to="bow" method="_on_timer_timeout"]
+[node name="State Machine" type="Node" parent="bow" node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_qwid8")
+initial_state = NodePath("bow_idle")
+
+[node name="bow_idle" type="Node" parent="bow/State Machine" node_paths=PackedStringArray("animated_sprite_2d")]
+script = ExtResource("4_cmq4q")
+animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+
+[node name="bow_draw" type="Node" parent="bow/State Machine"]
+script = ExtResource("5_rw02v")
+
+[node name="Draw Timer" type="Timer" parent="bow/State Machine/bow_draw"]
+one_shot = true
+
+[node name="bow_shoot" type="Node" parent="bow/State Machine" node_paths=PackedStringArray("bow")]
+script = ExtResource("6_c2e2l")
+bow = NodePath("../..")
+
+[connection signal="timeout" from="bow/State Machine/bow_draw/Draw Timer" to="bow/State Machine/bow_draw" method="_on_draw_timer_timeout"]
