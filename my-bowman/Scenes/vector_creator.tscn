@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://d4t1vpjnh5uw"]
+
+[ext_resource type="Script" path="res://Scripts/vector_creator.gd" id="1_e47tj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sdcsb"]
+size = Vector2(200, 200)
+
+[node name="VectorCreator" type="Area2D"]
+position = Vector2(573, 330)
+script = ExtResource("1_e47tj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_sdcsb")
+
+[connection signal="draw" from="." to="." method="_on_draw"]
+[connection signal="input_event" from="." to="." method="_on_input_event"]

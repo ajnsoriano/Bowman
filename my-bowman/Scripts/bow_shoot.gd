@@ -17,7 +17,8 @@ func Physics_Update(delta: float):
 
 func shoot():
 	var instance = arrow.instantiate()
-	instance.direction = bow.rotation
+	instance.direction = bow.rotation + PI / 2
 	instance.spawnPos = bow.global_position
 	instance.spawnRot = bow.rotation
+	instance.velo =  bow.vector
 	main.add_child.call_deferred(instance)

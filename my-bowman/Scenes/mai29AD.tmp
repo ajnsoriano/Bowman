@@ -1,6 +1,5 @@
-[gd_scene load_steps=32 format=3 uid="uid://rqjatkg4fc2d"]
+[gd_scene load_steps=30 format=3 uid="uid://rqjatkg4fc2d"]
 
-[ext_resource type="PackedScene" uid="uid://b2rf4cs7bw1pb" path="res://Scenes/Mountain_Field.tscn" id="1_ce05j"]
 [ext_resource type="Texture2D" uid="uid://wehilybaalvd" path="res://Art/Bow_sprite-Sheet.png" id="1_hhj1c"]
 [ext_resource type="Script" path="res://Scripts/bow.gd" id="1_xo03o"]
 [ext_resource type="Texture2D" uid="uid://cirb2qlp1lfih" path="res://Art/only_bow.png" id="2_sihro"]
@@ -163,23 +162,13 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w65pi"]
 size = Vector2(125.387, 125.388)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kc3gr"]
-size = Vector2(13514, 341)
-
 [node name="main" type="Node2D"]
+position = Vector2(268, 148)
 
-[node name="Mountain Field" parent="." instance=ExtResource("1_ce05j")]
-texture_filter = 1
-
-[node name="bow" type="Node2D" parent="." node_paths=PackedStringArray("background")]
-texture_filter = 1
-position = Vector2(427, 657)
+[node name="bow" type="Node2D" parent="."]
 script = ExtResource("1_xo03o")
-max_length = 80.0
-background = NodePath("../Mountain Field")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="bow"]
-scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_xn3si")
 animation = &"default_w_arrow"
 
@@ -204,11 +193,9 @@ script = ExtResource("6_c2e2l")
 bow = NodePath("../..")
 
 [node name="Box" type="Node2D" parent="."]
-texture_filter = 1
-position = Vector2(1636, 623)
-scale = Vector2(4, 4)
 
 [node name="Test Box" type="CharacterBody2D" parent="Box"]
+position = Vector2(245, -3)
 scale = Vector2(0.191406, 0.191406)
 script = ExtResource("8_btqjh")
 
@@ -220,12 +207,6 @@ texture = ExtResource("8_mcov7")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Box/Test Box/Area2D"]
 position = Vector2(0, 0.000183105)
 shape = SubResource("RectangleShape2D_w65pi")
-
-[node name="Ground" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
-position = Vector2(6757, 906.5)
-shape = SubResource("RectangleShape2D_kc3gr")
 
 [connection signal="timeout" from="bow/State Machine/bow_draw/Draw Timer" to="bow/State Machine/bow_draw" method="_on_draw_timer_timeout"]
 [connection signal="body_entered" from="Box/Test Box/Area2D" to="Box/Test Box" method="_on_area_2d_body_entered"]
