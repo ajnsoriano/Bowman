@@ -1,15 +1,152 @@
-[gd_scene load_steps=32 format=3 uid="uid://rqjatkg4fc2d"]
+[gd_scene load_steps=64 format=3 uid="uid://rqjatkg4fc2d"]
 
+[ext_resource type="Script" path="res://Scripts/main.gd" id="1_c42lr"]
 [ext_resource type="PackedScene" uid="uid://b2rf4cs7bw1pb" path="res://Scenes/Mountain_Field.tscn" id="1_ce05j"]
 [ext_resource type="Texture2D" uid="uid://wehilybaalvd" path="res://Art/Bow_sprite-Sheet.png" id="1_hhj1c"]
 [ext_resource type="Script" path="res://Scripts/bow.gd" id="1_xo03o"]
 [ext_resource type="Texture2D" uid="uid://cirb2qlp1lfih" path="res://Art/only_bow.png" id="2_sihro"]
 [ext_resource type="Script" path="res://Scripts/state_machine.gd" id="3_qwid8"]
+[ext_resource type="Script" path="res://Scripts/player_1.gd" id="4_bsg11"]
 [ext_resource type="Script" path="res://Scripts/bow_idle.gd" id="4_cmq4q"]
 [ext_resource type="Script" path="res://Scripts/bow_draw.gd" id="5_rw02v"]
 [ext_resource type="Script" path="res://Scripts/bow_shoot.gd" id="6_c2e2l"]
 [ext_resource type="Script" path="res://Scripts/test_box.gd" id="8_btqjh"]
 [ext_resource type="Texture2D" uid="uid://bykorbcuy6xf" path="res://icon.svg" id="8_mcov7"]
+[ext_resource type="Texture2D" uid="uid://co86bmsvxqima" path="res://Art/Bowman_sprite-Sheet.png" id="11_bhnmo"]
+[ext_resource type="Script" path="res://Scripts/cpu.gd" id="16_ths1j"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w65pi"]
+size = Vector2(125.387, 125.388)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ug6ww"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s2xvb"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mr1t5"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ug8a5"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b0mvy"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rdha7"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wujor"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skwar"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kpnl1"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tm6av"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s2xvb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mr1t5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ug8a5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b0mvy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rdha7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wujor")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skwar")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kpnl1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ddxik"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pqj8o"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lw3fp"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tcht4"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a1886"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(256, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sfjye"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(320, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1fbpu"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(384, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y4wqw"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(448, 64, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_n5af8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ddxik")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pqj8o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lw3fp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tcht4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a1886")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sfjye")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fbpu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y4wqw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ajpis"]
 atlas = ExtResource("2_sihro")
@@ -160,52 +297,92 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_w65pi"]
-size = Vector2(125.387, 125.388)
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ttio"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(0, 192, 64, 64)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kc3gr"]
-size = Vector2(13514, 341)
+[sub_resource type="AtlasTexture" id="AtlasTexture_ewohy"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(0, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_josfq"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(64, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e5e2i"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(128, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y2i2y"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(192, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h752q"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(256, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5qk7q"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(320, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iavb1"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(384, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_34aai"]
+atlas = ExtResource("11_bhnmo")
+region = Rect2(448, 192, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sf16v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ttio")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ewohy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_josfq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e5e2i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y2i2y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h752q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5qk7q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iavb1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_34aai")
+}],
+"loop": false,
+"name": &"draw",
+"speed": 8.0
+}]
 
 [node name="main" type="Node2D"]
+script = ExtResource("1_c42lr")
 
 [node name="Mountain Field" parent="." instance=ExtResource("1_ce05j")]
 texture_filter = 1
 
-[node name="bow" type="Node2D" parent="." node_paths=PackedStringArray("background")]
-texture_filter = 1
-position = Vector2(427, 657)
-script = ExtResource("1_xo03o")
-max_length = 80.0
-background = NodePath("../Mountain Field")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="bow"]
-scale = Vector2(4, 4)
-sprite_frames = SubResource("SpriteFrames_xn3si")
-animation = &"default_w_arrow"
-
-[node name="State Machine" type="Node" parent="bow" node_paths=PackedStringArray("initial_state")]
-script = ExtResource("3_qwid8")
-initial_state = NodePath("bow_idle")
-
-[node name="bow_idle" type="Node" parent="bow/State Machine" node_paths=PackedStringArray("animated_sprite_2d", "bow")]
-script = ExtResource("4_cmq4q")
-animated_sprite_2d = NodePath("../../AnimatedSprite2D")
-bow = NodePath("../..")
-
-[node name="bow_draw" type="Node" parent="bow/State Machine" node_paths=PackedStringArray("bow")]
-script = ExtResource("5_rw02v")
-bow = NodePath("../..")
-
-[node name="Draw Timer" type="Timer" parent="bow/State Machine/bow_draw"]
-one_shot = true
-
-[node name="bow_shoot" type="Node" parent="bow/State Machine" node_paths=PackedStringArray("bow")]
-script = ExtResource("6_c2e2l")
-bow = NodePath("../..")
-
 [node name="Box" type="Node2D" parent="."]
+visible = false
 texture_filter = 1
-position = Vector2(1636, 623)
+position = Vector2(5867, 703)
 scale = Vector2(4, 4)
 
 [node name="Test Box" type="CharacterBody2D" parent="Box"]
@@ -224,8 +401,115 @@ shape = SubResource("RectangleShape2D_w65pi")
 [node name="Ground" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
-position = Vector2(6757, 906.5)
-shape = SubResource("RectangleShape2D_kc3gr")
+position = Vector2(0, 736)
+shape = SubResource("WorldBoundaryShape2D_ug6ww")
 
-[connection signal="timeout" from="bow/State Machine/bow_draw/Draw Timer" to="bow/State Machine/bow_draw" method="_on_draw_timer_timeout"]
-[connection signal="body_entered" from="Box/Test Box/Area2D" to="Box/Test Box" method="_on_area_2d_body_entered"]
+[node name="Player1" type="Node2D" parent="."]
+script = ExtResource("4_bsg11")
+
+[node name="Left Arm" type="AnimatedSprite2D" parent="Player1"]
+position = Vector2(352, 715)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_tm6av")
+frame_progress = 0.867086
+
+[node name="Body" type="AnimatedSprite2D" parent="Player1"]
+position = Vector2(352, 715)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_n5af8")
+frame_progress = 0.669002
+
+[node name="bow" type="Node2D" parent="Player1" node_paths=PackedStringArray("background")]
+texture_filter = 1
+position = Vector2(352, 715)
+script = ExtResource("1_xo03o")
+background = NodePath("../../Mountain Field")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player1/bow"]
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_xn3si")
+animation = &"default_w_arrow"
+offset = Vector2(10, -4)
+
+[node name="State Machine" type="Node" parent="Player1/bow" node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_qwid8")
+initial_state = NodePath("bow_idle")
+
+[node name="bow_idle" type="Node" parent="Player1/bow/State Machine" node_paths=PackedStringArray("animated_sprite_2d", "bow")]
+script = ExtResource("4_cmq4q")
+animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+bow = NodePath("../..")
+
+[node name="bow_draw" type="Node" parent="Player1/bow/State Machine" node_paths=PackedStringArray("left_arm", "right_arm", "bow")]
+script = ExtResource("5_rw02v")
+left_arm = NodePath("../../../Left Arm")
+right_arm = NodePath("../../../Right Arm")
+bow = NodePath("../..")
+
+[node name="Draw Timer" type="Timer" parent="Player1/bow/State Machine/bow_draw"]
+one_shot = true
+
+[node name="bow_shoot" type="Node" parent="Player1/bow/State Machine" node_paths=PackedStringArray("right_arm", "camera", "bow", "background")]
+script = ExtResource("6_c2e2l")
+right_arm = NodePath("../../../Right Arm")
+camera = NodePath("../../../../Camera2D")
+bow = NodePath("../..")
+background = NodePath("../../../../Mountain Field")
+
+[node name="Camera Delay" type="Timer" parent="Player1/bow/State Machine/bow_shoot"]
+one_shot = true
+
+[node name="Right Arm" type="AnimatedSprite2D" parent="Player1"]
+position = Vector2(340, 700)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_sf16v")
+offset = Vector2(3, 4)
+
+[node name="CPU" type="Node2D" parent="."]
+position = Vector2(1000, 0)
+script = ExtResource("16_ths1j")
+
+[node name="Left Arm" type="AnimatedSprite2D" parent="CPU"]
+position = Vector2(352, 715)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_tm6av")
+frame_progress = 0.867086
+flip_h = true
+
+[node name="Body" type="AnimatedSprite2D" parent="CPU"]
+position = Vector2(352, 715)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_n5af8")
+frame_progress = 0.669002
+flip_h = true
+
+[node name="CPU Bow Sprite" type="AnimatedSprite2D" parent="CPU"]
+position = Vector2(352, 715)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_xn3si")
+animation = &"default_w_arrow"
+offset = Vector2(-10, -4)
+flip_h = true
+
+[node name="Right Arm" type="AnimatedSprite2D" parent="CPU"]
+position = Vector2(340, 700)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_sf16v")
+offset = Vector2(3, 4)
+flip_h = true
+
+[node name="Temp delay timer" type="Timer" parent="CPU"]
+wait_time = 2.0
+one_shot = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(352, 715)
+limit_top = 1
+limit_bottom = 3
+
+[connection signal="activate_cpu" from="." to="CPU" method="_on_main_activate_cpu"]
+[connection signal="body_entered" from="Ground" to="Player1/bow/State Machine/bow_shoot" method="_on_ground_body_entered"]
+[connection signal="end_turn" from="Player1/bow/State Machine/bow_shoot" to="." method="_on_player_end_turn"]
+[connection signal="timeout" from="Player1/bow/State Machine/bow_shoot/Camera Delay" to="Player1/bow/State Machine/bow_shoot" method="_on_camera_delay_timeout"]
+[connection signal="end_turn" from="CPU" to="." method="_on_cpu_end_turn"]
+[connection signal="timeout" from="CPU/Temp delay timer" to="CPU" method="_on_temp_delay_timer_timeout"]

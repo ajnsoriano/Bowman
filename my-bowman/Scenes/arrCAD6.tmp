@@ -7,7 +7,7 @@
 size = Vector2(20, 3)
 
 [node name="Arrow" type="CharacterBody2D"]
-scale = Vector2(3, 3)
+scale = Vector2(4, 4)
 script = ExtResource("1_d0fe0")
 SPEED = 10.0
 gravity = 980.0

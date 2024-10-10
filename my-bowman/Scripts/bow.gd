@@ -1,12 +1,9 @@
 extends Node2D
 
-@onready var main = get_tree().get_root().get_node("main")
-@onready var arrow = load("res://Scenes/arrow.tscn")
-
 var position_start : Vector2
 var position_end : Vector2
 var vector : Vector2
-
+var shooting = false
 @export var max_length : float = 200
 @export var background : Node2D
 
@@ -14,8 +11,6 @@ var vector : Vector2
 func _ready() -> void:
 	#shoot()
 	pass
-
-	
 	
 func _physics_process(delta: float) -> void:	
 	background.SCROLL_SPEED = vector.length()

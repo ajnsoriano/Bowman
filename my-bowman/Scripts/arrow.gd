@@ -1,15 +1,16 @@
 extends CharacterBody2D
 
-@export var SPEED : float = 1
+@export var SPEED : float
+
+
 
 var direction : float
 var spawnPos : Vector2
 var spawnRot : float
 @export var gravity : float = 9.8
-var bow = get_parent()
 var hit = false
 var velo : Vector2
-
+var temp = true
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	global_position = spawnPos
@@ -17,12 +18,11 @@ func _ready() -> void:
 	
 	#velocity = Vector2(cos(spawnRot), sin(spawnRot)) * SPEED
 	velocity = velo * SPEED
-	$"Despawn Timer".start()
+
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
-	#velocity = Vector2(0, -SPEED).rotated(direction)
 	if !hit:
 		velocity.y += gravity * delta
 		
@@ -31,8 +31,13 @@ func _physics_process(delta: float) -> void:
 		global_rotation = velocity.angle()
 		move_and_slide()
 	else:
+		if temp:
+			$"Despawn Timer".start()
+			temp = false
 		$CollisionShape2D.disabled = true
 
 
+
 func _on_despawn_timer_timeout() -> void:
-	self.queue_free()
+	#self.queue_free()
+	pass
