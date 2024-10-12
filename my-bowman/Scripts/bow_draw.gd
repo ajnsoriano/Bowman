@@ -20,7 +20,7 @@ func Physics_Update(delta: float):
 	#calculate aim vector
 	if InputEventMouseMotion:
 		bow.position_end = bow.get_global_mouse_position() 
-		bow.vector = -(bow.position_end - bow.position_start).limit_length(bow.max_length)
+		bow.vector = -((bow.position_end - bow.position_start) * 3).limit_length(bow.max_length)
 		animated_sprite_2d.look_at(bow.global_position + bow.vector)
 		left_arm.look_at(bow.global_position + bow.vector)
 		right_arm.look_at(bow.global_position + bow.vector)

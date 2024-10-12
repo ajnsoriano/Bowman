@@ -31,23 +31,20 @@ func Physics_Update(delta: float):
 
 func shoot():
 	instance = arrow.instantiate()
-	instance.direction = bow.rotation + PI / 2
+	instance.direction = bow.rotation
 	instance.spawnPos = bow.global_position
 	instance.spawnRot = bow.rotation
 	instance.velo =  bow.vector
+	instance.shot_from = "P1"
+	
 	main.add_child.call_deferred(instance)
 	
-func _on_ground_body_entered(body: Node2D) -> void:
-	body.hit = true
-	background.scroll = false
-	bow.shooting = false
-	$"Camera Delay".start()
+	print("P1 arrow:")
+	print("Direction: ", instance.direction)
+	print("Rotation: ", instance.global_rotation)
+	print("Angle: ", rad_to_deg(instance.velo.angle()))
+	print("Velocity: ", instance.velo)
 	
-
-
-func _on_camera_delay_timeout() -> void:
-	#var tween = create_tween()
-	#tween.tween_property(camera, 'position', cpu_bow_sprite.global_position, 1.5).set_trans(Tween.TRANS_EXPO)
+func _on_player_camera_delay_timeout() -> void:
 	end_turn.emit()
 	Transitioned.emit(self, "bow_idle")
-	

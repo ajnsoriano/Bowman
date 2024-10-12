@@ -19,4 +19,4 @@ func _physics_process(delta: float) -> void:
 
 func _draw() -> void:
 	draw_line((position_start - global_position), (position_end - global_position), Color.BLUE, 4)
-	draw_line((position_start - global_position), (position_start - global_position + vector), Color.RED, 8)
+	draw_line((position_start - global_position), (position_start - global_position + (vector / 10)), Color.RED, 8)

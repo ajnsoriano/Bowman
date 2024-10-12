@@ -1,13 +1,13 @@
 extends CharacterBody2D
 
-@export var SPEED : float
+var SPEED : float
 
 
-
+var shot_from : String
 var direction : float
 var spawnPos : Vector2
 var spawnRot : float
-@export var gravity : float = 9.8
+@export var gravity : float
 var hit = false
 var velo : Vector2
 var temp = true
@@ -16,11 +16,7 @@ func _ready() -> void:
 	global_position = spawnPos
 	global_rotation = spawnRot
 	
-	#velocity = Vector2(cos(spawnRot), sin(spawnRot)) * SPEED
-	velocity = velo * SPEED
-
-	
-
+	velocity = velo
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	if !hit:
@@ -30,7 +26,9 @@ func _physics_process(delta: float) -> void:
 		
 		global_rotation = velocity.angle()
 		move_and_slide()
+		#print("Velocity: ", velocity)
 	else:
+		velocity = Vector2.ZERO
 		if temp:
 			$"Despawn Timer".start()
 			temp = false

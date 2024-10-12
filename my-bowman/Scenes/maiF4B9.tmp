@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=3 uid="uid://rqjatkg4fc2d"]
+[gd_scene load_steps=64 format=3 uid="uid://rqjatkg4fc2d"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_c42lr"]
 [ext_resource type="PackedScene" uid="uid://b2rf4cs7bw1pb" path="res://Scenes/Mountain_Field.tscn" id="1_ce05j"]
@@ -13,7 +13,6 @@
 [ext_resource type="Script" path="res://Scripts/test_box.gd" id="8_btqjh"]
 [ext_resource type="Texture2D" uid="uid://bykorbcuy6xf" path="res://icon.svg" id="8_mcov7"]
 [ext_resource type="Texture2D" uid="uid://co86bmsvxqima" path="res://Art/Bowman_sprite-Sheet.png" id="11_bhnmo"]
-[ext_resource type="Script" path="res://Scenes/game_camera.gd" id="15_vj3ot"]
 [ext_resource type="Script" path="res://Scripts/cpu.gd" id="16_ths1j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w65pi"]
@@ -374,12 +373,6 @@ animations = [{
 "speed": 8.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_3wosh"]
-radius = 20.025
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fdfsd"]
-size = Vector2(30, 47)
-
 [node name="main" type="Node2D"]
 script = ExtResource("1_c42lr")
 
@@ -428,7 +421,6 @@ frame_progress = 0.669002
 [node name="bow" type="Node2D" parent="Player1" node_paths=PackedStringArray("background")]
 texture_filter = 1
 script = ExtResource("1_xo03o")
-max_length = 1500.0
 background = NodePath("../../Mountain Field")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player1/bow"]
@@ -462,6 +454,9 @@ camera = NodePath("../../../../Camera2D")
 bow = NodePath("../..")
 background = NodePath("../../../../Mountain Field")
 
+[node name="Camera Delay" type="Timer" parent="Player1/bow/State Machine/bow_shoot"]
+one_shot = true
+
 [node name="Right Arm" type="AnimatedSprite2D" parent="Player1"]
 position = Vector2(-14, -15)
 scale = Vector2(3, 3)
@@ -469,18 +464,13 @@ sprite_frames = SubResource("SpriteFrames_sf16v")
 offset = Vector2(3, 4)
 
 [node name="CPU" type="Node2D" parent="."]
-position = Vector2(5000, 695)
+position = Vector2(2396, 697)
 script = ExtResource("16_ths1j")
-g = 490.0
-min_speed = 200.0
-max_speed = 2000.0
 
 [node name="Left Arm" type="AnimatedSprite2D" parent="CPU"]
-position = Vector2(0, -18)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_tm6av")
 frame_progress = 0.867086
-offset = Vector2(1, 6)
 flip_h = true
 
 [node name="Body" type="AnimatedSprite2D" parent="CPU"]
@@ -496,54 +486,24 @@ animation = &"default_w_arrow"
 offset = Vector2(-10, -4)
 flip_h = true
 
-[node name="Marker2D" type="Marker2D" parent="CPU/CPU Bow Sprite"]
-position = Vector2(-15, -4.66667)
-scale = Vector2(0.333333, 0.333333)
-
 [node name="Right Arm" type="AnimatedSprite2D" parent="CPU"]
-position = Vector2(13, -15)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_sf16v")
-offset = Vector2(-3, 4)
+offset = Vector2(3, 4)
 flip_h = true
 
-[node name="Aim Delay timer" type="Timer" parent="CPU"]
-wait_time = 3.0
+[node name="Temp delay timer" type="Timer" parent="CPU"]
+wait_time = 2.0
 one_shot = true
-
-[node name="Head" type="Area2D" parent="CPU"]
-position = Vector2(6, -44)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CPU/Head"]
-position = Vector2(1, -2)
-shape = SubResource("CircleShape2D_3wosh")
-
-[node name="Torso" type="Area2D" parent="CPU"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CPU/Torso"]
-position = Vector2(4, -2.5)
-shape = SubResource("RectangleShape2D_fdfsd")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(352, 715)
 limit_top = 1
 limit_bottom = 3
-script = ExtResource("15_vj3ot")
-
-[node name="Player Camera Delay" type="Timer" parent="."]
-wait_time = 2.0
-one_shot = true
-
-[node name="CPU Camera Delay" type="Timer" parent="."]
-wait_time = 2.0
-one_shot = true
 
 [connection signal="activate_cpu" from="." to="CPU" method="_on_main_activate_cpu"]
-[connection signal="body_entered" from="Ground" to="." method="_on_ground_body_entered"]
+[connection signal="body_entered" from="Ground" to="Player1/bow/State Machine/bow_shoot" method="_on_ground_body_entered"]
 [connection signal="end_turn" from="Player1/bow/State Machine/bow_shoot" to="." method="_on_player_end_turn"]
+[connection signal="timeout" from="Player1/bow/State Machine/bow_shoot/Camera Delay" to="Player1/bow/State Machine/bow_shoot" method="_on_camera_delay_timeout"]
 [connection signal="end_turn" from="CPU" to="." method="_on_cpu_end_turn"]
-[connection signal="timeout" from="CPU/Aim Delay timer" to="CPU" method="_on_aim_delay_timer_timeout"]
-[connection signal="body_entered" from="CPU/Head" to="." method="_on_CPU_head_body_entered"]
-[connection signal="body_entered" from="CPU/Torso" to="." method="_on_CPU_torso_body_entered"]
-[connection signal="timeout" from="Player Camera Delay" to="Player1/bow/State Machine/bow_shoot" method="_on_player_camera_delay_timeout"]
-[connection signal="timeout" from="CPU Camera Delay" to="CPU" method="_on_cpu_camera_delay_timeout"]
+[connection signal="timeout" from="CPU/Temp delay timer" to="CPU" method="_on_temp_delay_timer_timeout"]
