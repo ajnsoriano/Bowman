@@ -71,3 +71,46 @@ func _on_CPU_torso_body_entered(body: Node2D) -> void:
 	cpu.health -= 2
 	
 	$"Player Camera Delay".start()
+
+
+# Replace with function body.
+
+
+func _on_CPU_legs_body_entered(body):
+	body.hit = true
+	body.z_index = -1
+	mountain_field.scroll = false
+	bow.shooting = false
+	cpu.health -= 1
+
+	$"Player Camera Delay".start()
+
+
+func _on_player_head_body_entered(body):
+	body.hit = true 
+	body.z_index = -1
+	mountain_field.scroll = false
+	cpu.shooting = false
+	player_1.health -= 3
+
+	$"CPU Camera Delay".start()
+
+
+func _on_player_torso_body_entered(body):
+	body.hit = true 
+	body.z_index = -1
+	mountain_field.scroll = false
+	cpu.shooting = false
+	player_1.health -= 2
+
+	$"CPU Camera Delay".start()
+
+
+func _on_player_legs_body_entered(body):
+	body.hit = true 
+	body.z_index = -1
+	mountain_field.scroll = false
+	cpu.shooting = false
+	player_1.health -= 1
+
+	$"CPU Camera Delay".start()

@@ -7,7 +7,7 @@ extends Node2D
 @onready var camera_2d: Camera2D = $"../Camera2D"
 @export var min_speed : float
 @export var max_speed : float
-
+@export var Random_Range : float
 var current_turn = false
 var shooting = false
 var max_iterations = 100
@@ -69,6 +69,9 @@ func shoot_at_player():
 		speed = result["speed"]
 		angle = result["angle"]
 		
+		angle = add_random_angle(angle)
+		speed = add_random_speed(speed)
+		
 		var vx = speed * cos(angle) # horizontal
 		var vy = -speed * sin(angle) # Vertical
 	
@@ -87,15 +90,15 @@ func shoot_at_player():
 		tween.tween_property($"CPU Bow Sprite", 'rotation', angle + PI / 2, 2)
 		tween.parallel().tween_property($"Right Arm", 'rotation', angle + PI / 2, 2)
 		tween.parallel().tween_property($"Left Arm", 'rotation', angle + PI / 2, 2)
-		#main.add_child.call_deferred(instance)
-		#
-		#print("CPU arrow:")
-		#print("Speed: ", speed)
-		#print("Angle: ", rad_to_deg(angle))
-		#print("Velocity: ", instance.velo)
-		#
-		#shooting = true
+
+func add_random_angle(angle):
+	var result = angle + deg_to_rad(randf_range(-Random_Range, Random_Range))
+	return result
 		
+func add_random_speed(speed):
+	var result = speed + randi_range(-Random_Range, Random_Range )
+	return result
+	
 func _on_main_activate_cpu() -> void:
 	shoot_at_player()
 

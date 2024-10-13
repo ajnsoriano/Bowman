@@ -8,6 +8,7 @@ class_name bow_shoot
 @export var bow : Node2D
 @export var background : Node2D
 @onready var cpu_bow_sprite: AnimatedSprite2D = $"../../../../CPU/CPU Bow Sprite"
+@onready var marker_2d = $"../../Marker2D"
 
 
 var instance
@@ -32,7 +33,7 @@ func Physics_Update(delta: float):
 func shoot():
 	instance = arrow.instantiate()
 	instance.direction = bow.rotation
-	instance.spawnPos = bow.global_position
+	instance.spawnPos = marker_2d.global_position
 	instance.spawnRot = bow.rotation
 	instance.velo =  bow.vector
 	instance.shot_from = "P1"
