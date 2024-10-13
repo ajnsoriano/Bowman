@@ -6,6 +6,8 @@ extends Node2D
 @onready var player_bow_sprite_2d: AnimatedSprite2D = $Player1/bow/AnimatedSprite2D
 @onready var bow: Node2D = $Player1/bow
 @onready var mountain_field: Node2D = $"Mountain Field"
+@onready var button: Button = $Camera2D/Button
+@onready var rich_text_label: RichTextLabel = $Camera2D/RichTextLabel
 
 var current_player
 
@@ -23,7 +25,12 @@ func _process(delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	pass
-
+	
+func end_game():
+	rich_text_label.visible = true
+	button.disabled = false
+	button.visible = true
+	pass
 
 func _on_player_end_turn() -> void:
 	var tween = create_tween()
@@ -60,7 +67,10 @@ func _on_CPU_head_body_entered(body: Node2D) -> void:
 	bow.shooting = false
 	cpu.health -= 3
 	
-	$"Player Camera Delay".start()
+	if cpu.health <= 0:
+		end_game()
+	else:
+		$"Player Camera Delay".start()
 
 
 func _on_CPU_torso_body_entered(body: Node2D) -> void:
@@ -70,7 +80,10 @@ func _on_CPU_torso_body_entered(body: Node2D) -> void:
 	bow.shooting = false
 	cpu.health -= 2
 	
-	$"Player Camera Delay".start()
+	if cpu.health <= 0:
+		end_game()
+	else:
+		$"Player Camera Delay".start()
 
 
 # Replace with function body.
@@ -83,7 +96,10 @@ func _on_CPU_legs_body_entered(body):
 	bow.shooting = false
 	cpu.health -= 1
 
-	$"Player Camera Delay".start()
+	if cpu.health <= 0:
+		end_game()
+	else:
+		$"Player Camera Delay".start()
 
 
 func _on_player_head_body_entered(body):
@@ -93,7 +109,10 @@ func _on_player_head_body_entered(body):
 	cpu.shooting = false
 	player_1.health -= 3
 
-	$"CPU Camera Delay".start()
+	if player_1.health <= 0:
+		end_game()
+	else:
+		$"CPU Camera Delay".start()
 
 
 func _on_player_torso_body_entered(body):
@@ -103,7 +122,10 @@ func _on_player_torso_body_entered(body):
 	cpu.shooting = false
 	player_1.health -= 2
 
-	$"CPU Camera Delay".start()
+	if player_1.health <= 0:
+		end_game()
+	else:
+		$"CPU Camera Delay".start()
 
 
 func _on_player_legs_body_entered(body):
@@ -113,4 +135,11 @@ func _on_player_legs_body_entered(body):
 	cpu.shooting = false
 	player_1.health -= 1
 
-	$"CPU Camera Delay".start()
+	if player_1.health <= 0:
+		end_game()
+	else:
+		$"CPU Camera Delay".start()
+
+
+func _on_button_pressed() -> void:
+	get_tree().reload_current_scene()

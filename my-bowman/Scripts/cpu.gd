@@ -7,7 +7,8 @@ extends Node2D
 @onready var camera_2d: Camera2D = $"../Camera2D"
 @export var min_speed : float
 @export var max_speed : float
-@export var Random_Range : float
+@export var Random_Angle_Range : float
+@export var Random_Speed_Range : float
 var current_turn = false
 var shooting = false
 var max_iterations = 100
@@ -92,11 +93,11 @@ func shoot_at_player():
 		tween.parallel().tween_property($"Left Arm", 'rotation', angle + PI / 2, 2)
 
 func add_random_angle(angle):
-	var result = angle + deg_to_rad(randf_range(-Random_Range, Random_Range))
+	var result = angle + deg_to_rad(randf_range(-Random_Angle_Range, Random_Angle_Range))
 	return result
 		
 func add_random_speed(speed):
-	var result = speed + randi_range(-Random_Range, Random_Range )
+	var result = speed + randi_range(-Random_Speed_Range, Random_Speed_Range )
 	return result
 	
 func _on_main_activate_cpu() -> void:

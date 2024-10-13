@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://Scripts/arrow.gd" id="1_d0fe0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1v0ox"]
-size = Vector2(20, 3)
+size = Vector2(21.6667, 3)
 
 [node name="Arrow" type="CharacterBody2D"]
 scale = Vector2(3, 3)
@@ -15,7 +15,7 @@ gravity = 980.0
 texture = ExtResource("1_0dapk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -0.5)
+position = Vector2(0.833333, -0.5)
 shape = SubResource("RectangleShape2D_1v0ox")
 
 [node name="Despawn Timer" type="Timer" parent="."]
