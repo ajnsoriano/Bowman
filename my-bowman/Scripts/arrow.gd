@@ -25,7 +25,7 @@ func _physics_process(delta: float) -> void:
 		global_position += velocity * delta
 		
 		global_rotation = velocity.angle()
-		move_and_slide()
+		move_and_collide(velocity * delta)
 		#print("Velocity: ", velocity)
 	else:
 		velocity = Vector2.ZERO

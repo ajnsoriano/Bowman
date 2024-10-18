@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=3 uid="uid://rqjatkg4fc2d"]
+[gd_scene load_steps=76 format=3 uid="uid://rqjatkg4fc2d"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_c42lr"]
 [ext_resource type="PackedScene" uid="uid://b2rf4cs7bw1pb" path="res://Scenes/Mountain_Field.tscn" id="1_ce05j"]
@@ -14,7 +14,12 @@
 [ext_resource type="Texture2D" uid="uid://bykorbcuy6xf" path="res://icon.svg" id="8_mcov7"]
 [ext_resource type="Texture2D" uid="uid://co86bmsvxqima" path="res://Art/Bowman_sprite-Sheet.png" id="11_bhnmo"]
 [ext_resource type="Script" path="res://Scenes/game_camera.gd" id="15_vj3ot"]
+[ext_resource type="AudioStream" uid="uid://d3xfrys875lu8" path="res://Audio/bow-loading-38752.mp3" id="16_o2i5h"]
 [ext_resource type="Script" path="res://Scripts/cpu.gd" id="16_ths1j"]
+[ext_resource type="AudioStream" uid="uid://bgcpbd5rr8l7c" path="res://Audio/nature-sounds-quiet-environment-24258.mp3" id="17_symdb"]
+[ext_resource type="AudioStream" uid="uid://cw6egpk6q16ve" path="res://Audio/zapsplat_warfare_arrow_incoming_whoosh_hit_body_squelch_blood_006_90727-[AudioTrimmer.com].mp3" id="18_ednxk"]
+[ext_resource type="AudioStream" uid="uid://cmxtbw3bspmjt" path="res://Audio/whoosh-transitions-sfx-01-118227.mp3" id="18_onajs"]
+[ext_resource type="AudioStream" uid="uid://cgojn64pb1m62" path="res://Audio/arrow-hitting-target-83810-[AudioTrimmer.com].mp3" id="20_t3kk3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w65pi"]
 size = Vector2(125.387, 125.388)
@@ -375,10 +380,10 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kl5ak"]
-radius = 19.0
+radius = 15.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5vbbx"]
-size = Vector2(38, 46)
+size = Vector2(38, 48)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dpek8"]
 size = Vector2(43, 55)
@@ -394,6 +399,7 @@ size = Vector2(40, 50)
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_c42lr")
+CPU_Debug = true
 
 [node name="Mountain Field" parent="." instance=ExtResource("1_ce05j")]
 texture_filter = 1
@@ -426,6 +432,7 @@ shape = SubResource("WorldBoundaryShape2D_ug6ww")
 [node name="Player1" type="Node2D" parent="."]
 position = Vector2(477, 695)
 script = ExtResource("4_bsg11")
+health = 5
 
 [node name="Left Arm" type="AnimatedSprite2D" parent="Player1"]
 scale = Vector2(3, 3)
@@ -440,7 +447,7 @@ frame_progress = 0.669002
 [node name="bow" type="Node2D" parent="Player1" node_paths=PackedStringArray("background")]
 texture_filter = 1
 script = ExtResource("1_xo03o")
-max_length = 1700.0
+max_length = 1500.0
 background = NodePath("../../Mountain Field")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player1/bow"]
@@ -448,6 +455,10 @@ scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_xn3si")
 animation = &"default_w_arrow"
 offset = Vector2(10, -4)
+
+[node name="Marker2D" type="Marker2D" parent="Player1/bow/AnimatedSprite2D"]
+position = Vector2(32.6667, -4.66667)
+scale = Vector2(0.333333, 0.333333)
 
 [node name="State Machine" type="Node" parent="Player1/bow" node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_qwid8")
@@ -474,9 +485,6 @@ camera = NodePath("../../../../Camera2D")
 bow = NodePath("../..")
 background = NodePath("../../../../Mountain Field")
 
-[node name="Marker2D" type="Marker2D" parent="Player1/bow"]
-position = Vector2(45, -14)
-
 [node name="Right Arm" type="AnimatedSprite2D" parent="Player1"]
 position = Vector2(-14, -15)
 scale = Vector2(3, 3)
@@ -486,13 +494,13 @@ offset = Vector2(3, 4)
 [node name="Head" type="Area2D" parent="Player1"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player1/Head"]
-position = Vector2(-8, -46)
+position = Vector2(-8, -47)
 shape = SubResource("CircleShape2D_kl5ak")
 
 [node name="Torso" type="Area2D" parent="Player1"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player1/Torso"]
-position = Vector2(-6, -5)
+position = Vector2(-6, -6)
 shape = SubResource("RectangleShape2D_5vbbx")
 
 [node name="Legs" type="Area2D" parent="Player1"]
@@ -505,6 +513,7 @@ shape = SubResource("RectangleShape2D_dpek8")
 position = Vector2(1000, 695)
 script = ExtResource("16_ths1j")
 g = 490.0
+health = 5
 min_speed = 200.0
 max_speed = 2000.0
 Random_Angle_Range = 10.0
@@ -567,36 +576,76 @@ position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_6iixu")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(352, 715)
+position = Vector2(471, 689)
 limit_top = 1
 limit_bottom = 3
 script = ExtResource("15_vj3ot")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Camera2D"]
+[node name="Win" type="RichTextLabel" parent="Camera2D"]
 visible = false
-offset_left = -129.0
-offset_top = -245.0
-offset_right = 238.0
-offset_bottom = -102.0
+offset_left = -91.0
+offset_top = -341.0
+offset_right = 276.0
+offset_bottom = -198.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/normal_font_size = 45
-text = "Game Over"
+text = "You win
+"
+
+[node name="Lose" type="RichTextLabel" parent="Camera2D"]
+visible = false
+offset_left = -92.0
+offset_top = -341.0
+offset_right = 275.0
+offset_bottom = -198.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 45
+text = "You Lose
+"
 
 [node name="Button" type="Button" parent="Camera2D"]
 visible = false
-offset_left = -46.0
-offset_top = -132.0
-offset_right = 42.0
-offset_bottom = -101.0
+offset_left = -42.0
+offset_top = -267.0
+offset_right = 46.0
+offset_bottom = -236.0
 disabled = true
 text = "Play Again"
 
+[node name="Quit" type="Button" parent="Camera2D"]
+offset_left = -937.0
+offset_top = -665.0
+offset_right = -895.0
+offset_bottom = -634.0
+text = "Quit"
+
 [node name="Player Camera Delay" type="Timer" parent="."]
-wait_time = 2.0
 one_shot = true
 
 [node name="CPU Camera Delay" type="Timer" parent="."]
-wait_time = 2.0
 one_shot = true
+
+[node name="Start Game Timer" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="Draw Bow" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("16_o2i5h")
+volume_db = 6.0
+
+[node name="Nature Sounds" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("17_symdb")
+volume_db = -10.0
+autoplay = true
+
+[node name="Arrow Hit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("18_ednxk")
+volume_db = 5.0
+
+[node name="Bow Shoot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("18_onajs")
+
+[node name="Arrow Hit Ground" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("20_t3kk3")
 
 [connection signal="activate_cpu" from="." to="CPU" method="_on_main_activate_cpu"]
 [connection signal="body_entered" from="Ground" to="." method="_on_ground_body_entered"]
@@ -610,5 +659,6 @@ one_shot = true
 [connection signal="body_entered" from="CPU/Torso" to="." method="_on_CPU_torso_body_entered"]
 [connection signal="body_entered" from="CPU/Legs" to="." method="_on_CPU_legs_body_entered"]
 [connection signal="pressed" from="Camera2D/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Camera2D/Quit" to="." method="_on_quit_pressed"]
 [connection signal="timeout" from="Player Camera Delay" to="Player1/bow/State Machine/bow_shoot" method="_on_player_camera_delay_timeout"]
 [connection signal="timeout" from="CPU Camera Delay" to="CPU" method="_on_cpu_camera_delay_timeout"]

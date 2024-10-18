@@ -85,6 +85,7 @@ func shoot_at_player():
 		$"Aim Delay timer".start()
 		
 		$"CPU Bow Sprite".play("draw")
+		$"../Draw Bow".playing = true
 		$"Right Arm".play("draw")
 		
 		var tween = create_tween()
@@ -110,6 +111,8 @@ func _on_cpu_camera_delay_timeout() -> void:
 
 func _on_aim_delay_timer_timeout() -> void:
 	main.add_child.call_deferred(instance)
+	
+	$"../Bow Shoot".playing = true
 	
 	$"CPU Bow Sprite".play('default')
 	$"Right Arm".play('default')

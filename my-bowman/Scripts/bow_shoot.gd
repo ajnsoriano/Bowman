@@ -8,7 +8,8 @@ class_name bow_shoot
 @export var bow : Node2D
 @export var background : Node2D
 @onready var cpu_bow_sprite: AnimatedSprite2D = $"../../../../CPU/CPU Bow Sprite"
-@onready var marker_2d = $"../../Marker2D"
+@onready var marker_2d: Marker2D = $"../../AnimatedSprite2D/Marker2D"
+
 
 
 var instance
@@ -34,11 +35,12 @@ func shoot():
 	instance = arrow.instantiate()
 	instance.direction = bow.rotation
 	instance.spawnPos = marker_2d.global_position
-	instance.spawnRot = bow.rotation
+	instance.spawnRot = bow.rotation - PI / 4
 	instance.velo =  bow.vector
 	instance.shot_from = "P1"
 	
 	main.add_child.call_deferred(instance)
+	$"../../../../Bow Shoot".playing = true
 	
 	print("P1 arrow:")
 	print("Direction: ", instance.direction)
